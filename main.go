@@ -3,27 +3,23 @@ package main
 import (
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"time"
 )
 
-
 func main() {
 
-	logger := log.New(os.Stderr, "ERROR: ", 0)
 
-	if len(os.Args) == 2 {
-		t, err := parseArg(os.Args[1])
+	for i, a := range os.Args[1:] {
+		t, err := parseArg(a)
 
 		if err != nil {
-			logger.Fatal(err)
+			fmt.Printf("[%d/%d]: Time since %s: %s\n", i+1, len(os.Args[1:]), a, err.Error())
+			continue
 		}
 
-		now := time.Now()
-
-		mjt := diffTime(now, t)
-		fmt.Println(mjt.String())
+		mjt := diffTime(time.Now(), t)
+		fmt.Printf("[%d/%d]: Time since %s: %s\n", i+1, len(os.Args[1:]), a, mjt.String())
 	}
 }
 
@@ -57,16 +53,16 @@ func parseArg(s string) (time.Time, error) {
 }
 
 type TimeValues struct {
-	year int
-	month int
-	day int
-	hour int
+	year   int
+	month  int
+	day    int
+	hour   int
 	minute int
 	second int
 }
 
 func (c *TimeValues) String() string {
-	return fmt.Sprintf( "%d year(s), %d month(s), %d day(s), %d hour(s), %d minute(s), %d second(s)", c.year, c.month, c.day, c.hour, c.minute, c.second)
+	return fmt.Sprintf("%d year(s), %d month(s), %d day(s), %d hour(s), %d minute(s), %d second(s)", c.year, c.month, c.day, c.hour, c.minute, c.second)
 }
 
 // diffTime -- logic inspired by https://stackoverflow.com/questions/36530251/time-since-with-months-and-years
