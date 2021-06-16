@@ -2,6 +2,10 @@
 
 Simple Go utility for calculating elapsed time.
 
+Note that it always calculates the elapsed time from the given time
+until now. Someday, I may extend this to calculate the elapsed time
+between two arbitrary points in time.
+
 # Installation
 
 ```shell
